@@ -54,7 +54,43 @@ resource "aws_instance" "ubuntu_web" {
   iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
 
   # install cloudwatch agent on EC2
-  user_data = file("${path.module}/install_cloudwatch.sh")
+  user_data = <<-EOF
+    #!/bin/bash
+    set -e
+    exec > /var/log/user-data.log 2>&1
+    
+    echo "Starting CloudWatch Agent installation at $(date)"
+    
+    # 下载并安装
+    wget -q https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
+    dpkg -i -E amazon-cloudwatch-agent.deb
+    rm amazon-cloudwatch-agent.deb
+    
+    # 创建配置
+    mkdir -p /opt/aws/amazon-cloudwatch-agent/etc/
+    cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json << 'CONFIG'
+    {
+      "metrics": {
+        "metrics_collected": {
+          "mem": {
+            "measurement": ["mem_used_percent"],
+            "metrics_collection_interval": 60
+          }
+        }
+      }
+    }
+    CONFIG
+    
+    # 启动 agent
+    /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+      -a fetch-config \
+      -m ec2 \
+      -s \
+      -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+    
+    echo "CloudWatch Agent installation completed at $(date)"
+  EOF
+
 
   user_data_replace_on_change = true
 
