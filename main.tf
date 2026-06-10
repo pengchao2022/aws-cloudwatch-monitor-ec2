@@ -20,7 +20,7 @@ module "sg" {
 module "ec2" {
   source = "./modules/ec2"
 
-  subnet_id = module.vpc.public_subnet_ids
+  subnet_ids = module.vpc.public_subnet_ids
 
   security_group_ids = [module.sg.sg_id]
 
