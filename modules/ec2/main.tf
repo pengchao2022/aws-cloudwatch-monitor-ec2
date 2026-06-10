@@ -11,7 +11,7 @@ resource "aws_instance" "ubuntu_web" {
   ami            = var.ami_id
   instance_type  = var.instance_type
 
-  subnet_id      = element(var.subnet_id, count.index % length(var.subnet_id))
+  subnet_id      = element(var.subnet_ids, count.index % length(var.subnet_ids))
 
   key_name       = aws_key_pair.web_key.key_name
 
