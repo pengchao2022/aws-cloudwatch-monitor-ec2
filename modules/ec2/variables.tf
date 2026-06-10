@@ -19,7 +19,7 @@ variable "public_key" {
   
 }
 
-variable "subnet_id" {
+variable "subnet_ids" {
   description = "The subnets which EC2 instance use"
   type        = list(string)
   

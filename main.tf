@@ -28,6 +28,10 @@ module "ec2" {
 
   instance_count = 1
 
+  ami_id = "ami-091138d0f0d41ff90"
+
+  instance_type = "t3.micro"
+
   iam_instance_profile_name = null
   
 }
