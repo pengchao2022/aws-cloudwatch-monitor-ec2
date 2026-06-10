@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # define OIDC permission
-    permission: 
+    permissions: 
       id-token: write      # used for request OIDC token
       contents: read       # used for pull the code in repo
 
@@ -40,7 +40,7 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
 
-        
+
 
 
 
