@@ -16,7 +16,10 @@ resource "aws_instance" "ubuntu_web" {
   key_name       = aws_key_pair.web_key.key_name
 
   # associate the IAM role so that EC2 can send monitoring data to CloudWatch
-  iam_instance_profile = var.iam_instance_profile_name
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
+
+  # install cloudwatch agent on EC2
+  user_data = file("${path.module}/install_cloudwatch.sh")
 
   # setup root block size
   root_block_device {
