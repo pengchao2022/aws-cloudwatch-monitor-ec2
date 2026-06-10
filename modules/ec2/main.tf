@@ -4,9 +4,15 @@ resource "aws_key_pair" "web_key" {
   public_key = var.public_key != null ? var.public_key : file("~/.ssh/id_rsa.pub")
 }
 
+
+resource "random_string" "suffix" {
+  length  = 4
+  special = false
+  upper   = false
+}
 # create ec2 cloudwatch role enable cloudwatch monitoring
 resource "aws_iam_role" "ec2_cloudwatch_role" {
-  name = "ec2-cloudwatch-role"
+  name = "ec2-cw-role-${random_string.suffix.result}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -49,6 +55,8 @@ resource "aws_instance" "ubuntu_web" {
 
   # install cloudwatch agent on EC2
   user_data = file("${path.module}/install_cloudwatch.sh")
+
+  user_data_replace_on_change = true
 
   # setup root block size
   root_block_device {

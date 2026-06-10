@@ -6,6 +6,9 @@ on:
       - main
     types:
       - closed
+    path:
+      - '**/*.tf'
+      - '.github/workflows/deploy.yaml'
 
 
 jobs:
