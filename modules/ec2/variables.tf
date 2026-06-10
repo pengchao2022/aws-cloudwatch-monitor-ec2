@@ -25,12 +25,6 @@ variable "instance_count" {
   default     = 1  
 }
 
-variable "iam_instance_profile_name" {
-  description = "The role name for granting EC2 permissions, used by CloudWatch Agent"
-  type        = string
-  default     = null
-}
-
 variable "security_group_ids" {
   description = "The security groups list"
   type        = list(string)

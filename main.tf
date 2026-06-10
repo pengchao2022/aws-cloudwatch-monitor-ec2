@@ -33,8 +33,6 @@ module "ec2" {
   ami_id = "ami-091138d0f0d41ff90"
 
   instance_type = "t3.micro"
-
-  iam_instance_profile_name = aws_iam_instance_profile.ec2_profile.name
   
 }
 
