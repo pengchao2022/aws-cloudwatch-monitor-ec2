@@ -1,0 +1,31 @@
+name: 'Terraform Destroy EC2'
+
+on:
+  workflow_dispatch:  # 允许在 GitHub Actions 页面手动点击按钮触发
+
+jobs:
+  terraform-destroy:
+    runs-on: ubuntu-latest
+
+    permissions: 
+      id-token: write      
+      contents: read       
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init 
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve -input=false
