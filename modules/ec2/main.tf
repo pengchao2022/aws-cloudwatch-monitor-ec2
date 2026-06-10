@@ -1,6 +1,6 @@
 # create SSH Key Pair
 resource "aws_key_pair" "web_key" {
-  key_name   = "my-ubuntu-web-key"
+  key_name   = "ubuntu-web-key"
   public_key = var.public_key  
 }
 
