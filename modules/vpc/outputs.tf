@@ -17,3 +17,7 @@ output "private_subnet_ids" {
 output "private_subnets_map" {
   value = { for s in aws_subnet.private : s.tags.Name => s.id }
 }
+
+output "vpc_cidr" {
+  value = aws_vpc.main.cidr_block 
+}
