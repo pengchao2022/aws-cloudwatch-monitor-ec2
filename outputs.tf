@@ -41,6 +41,6 @@ output "ssh_commands" {
   description = "快速 SSH 连接命令"
   value = [
     for ip in module.ec2.public_ips : 
-    "ssh -i <your-key-name>.pem ubuntu@${ip}"
+    "ssh -i ~/.ssh/id_rsa ubuntu@${ip}"
   ]
 }

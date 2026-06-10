@@ -13,12 +13,6 @@ variable "instance_type" {
   
 }
 
-variable "public_key" {
-  description = "The SSH id_rsa.pub key for your laptop to ssh the instance"
-  type        = string
-  
-}
-
 variable "subnet_ids" {
   description = "The subnets which EC2 instance use"
   type        = list(string)
@@ -40,4 +34,16 @@ variable "iam_instance_profile_name" {
 variable "security_group_ids" {
   description = "The security groups list"
   type        = list(string)
+}
+
+variable "key_name" {
+  description = "Name of the SSH key pair in AWS"
+  type        = string
+  default     = "my-key"
+}
+
+variable "public_key" {
+  description = "Your SSH public key content"
+  type        = string
+  sensitive   = true
 }
