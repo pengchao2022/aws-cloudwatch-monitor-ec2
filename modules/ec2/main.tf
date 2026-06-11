@@ -61,12 +61,12 @@ resource "aws_instance" "ubuntu_web" {
     
     echo "Starting CloudWatch Agent installation at $(date)"
     
-    # 下载并安装
+    # download and install CWA cloudwatch agent
     wget -q https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
     dpkg -i -E amazon-cloudwatch-agent.deb
     rm amazon-cloudwatch-agent.deb
     
-    # 创建配置
+    # configuration
     mkdir -p /opt/aws/amazon-cloudwatch-agent/etc/
     cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json << 'CONFIG'
     {
@@ -81,7 +81,7 @@ resource "aws_instance" "ubuntu_web" {
     }
     CONFIG
     
-    # 启动 agent
+    # run agent
     /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
       -a fetch-config \
       -m ec2 \
